@@ -1,0 +1,24 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+spec:
+  identityProviders:
+  - challenge: false
+    login: true
+    mappingMethod: claim
+    name: my_request_header_provider
+    requestHeader:
+      apiVersion: v1
+      challengeURL: https://www.example.com/challenging-proxy/oauth/authorize?${query}
+      emailHeaders:
+      - X-Remote-User-Email
+      headers:
+      - X-Remote-User
+      - SSO-User
+      loginURL: https://www.example.com/login-proxy/oauth/authorize?${query}
+      nameHeaders:
+      - X-Remote-User-Display-Name
+      preferredUsernameHeaders:
+      - X-Remote-User-Login
+    type: RequestHeader
